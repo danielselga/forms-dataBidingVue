@@ -1,6 +1,6 @@
 <template>
 <div>
-    <form>
+    <form @submit.prevent="handleSubmit">
         <label>Email: </label>
         <input type="email" required v-model="email">
         
@@ -8,6 +8,7 @@
      
         <label>Password: </label>
         <input type="password" required v-model="password">
+        <div v-if="passwordError">{{passwordError}}</div>
      
         <label>Role:</label>
         <select v-model="role">
@@ -42,6 +43,10 @@
         o objet clicado que vai ser o parametro a ser passado na função. -->
     </div>
 
+    <div>
+    <button class="submit">Create Acount</button>
+    </div>
+
     </form>
 
         
@@ -68,6 +73,7 @@ export default {
         //em todos os checkboxes que irão inputar o value nesse array.
         tempSkill: '',
         skills: [],
+        passwordError: ''
         //aqui estamos declarando o valor default pelo Value do form, pois o v-model é um two way biding ou seja os dados sempre serão o mesmo independente
         //de onde ele for atualizado.
     }
@@ -85,6 +91,13 @@ export default {
           this.skill = this.skills.filter((item) => {
               return skill !== item
           })
+      },
+      handleSubmit(){
+          console.log('Form Submited')
+          this.passwordError = this.password.lenght < 5 ? '' : 'Password must be at least 6 chart long'
+          if (!this.passwordError) {
+              console.log('Form Sended')
+          }
       }
   }
 }
